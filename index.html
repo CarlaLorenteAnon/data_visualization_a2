@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Vis & Society Assignment 2</title>
+	<link rel="stylesheet" href="https://vis-society.github.io/assignments/report.css" />
+</head>
+
+<body>
+	<header>
+		<h1>
+			<small>Assignment 2</small>
+			Exploratory Data Analysis
+		</h1>
+
+		<p>
+			<strong>Carla Lorente</strong> — <em>cla6@mit.edu</em>
+		</p>
+	</header>
+	<main>
+		<section>
+			<h2>Subtheme: Zoning and Housing Supply</h2>
+
+			<h3>Overall Analysis Questions</h3>
+			<ol>
+				<li><b>How is single-family zoning distributed across Metro Boston municipalities? </b></li>
+					<ul>
+						<b>Motivation: </b> <br>
+						As my friends and I approach graduation in May 2025, one of my closest friends and his husband have been trying to find an affordable place to live near Boston. They both have solid jobs lined up, but despite their stable income and careful budgeting, the search has been frustrating. Most of the homes they’ve found in suburban areas are single-family houses, which are either way out of their price range or too big for what they actually need. It made me wonder how widespread single-family zoning really is in Metro Boston and whether it’s one of the reasons why finding an affordable place is so difficult.
+						<br><br> They are not the only ones struggling. I have heard similar stories from others who want to stay in the area but have been priced out of certain towns, often because those places do not allow apartments or multi-family housing by right. It seems like some municipalities are much more restrictive than others, and I want to figure out where single-family zoning dominates and how that impacts housing availability and affordability.
+						<br><br> By looking at how single-family zoning is distributed across Metro Boston, I hope to get a better sense of which towns have the strictest zoning laws and whether those restrictions are playing a role in the region’s housing crisis. Understanding these patterns could help explain why so many young professionals, even with stable jobs, are struggling to find housing that fits their needs.
+						<br><br>
+					</ul>
+				<li><b>How many municipalities in Metro Boston residential land will now be “non-compliant” under current zoning laws (MBTA Communities Act)?</b></li>
+					<ul>
+						<b>Motivation: </b> <br> 
+						Housing affordability has been a growing concern among my friends and classmates, especially as many of us consider staying in the Boston area after graduation. The MBTA Communities Act <a href="#ref1">[1]</a> was supposed to make it easier to build more multi-family housing near public transit, which seems like a logical step toward addressing the housing crisis. However, I’ve been hearing that some towns are pushing back against the law, refusing to change their zoning even though they’re required to. This made me wonder: which municipalities are actually following the law, and which ones are still holding out?
+						<br><br> This question is important because non-compliance has direct consequences: municipalities that do not meet the law’s requirements risk losing state funding for housing, transportation, and infrastructure. Additionally, the recent Supreme Judicial Court ruling <a href="#ref2">[2]</a> has affirmed the state's authority to enforce compliance, making it critical to track which municipalities are not adhering to the law.
+						<br><br> By identifying which municipalities are currently non-compliant, I aim to better understand how widespread resistance to the MBTA Communities Act is and which towns may face enforcement actions. This analysis can provide insight into the effectiveness of statewide zoning policies and the challenges that remain in increasing housing supply near public transit.
+						<br><br>
+					
+					</ul>
+				<li><b>How does single-family zoning impact the demographic composition of municipalities in Metro Boston?</b></li>
+				<ul>
+					<b>Motivation: </b> <br>
+					Single-family zoning has long been criticized for limiting housing options and, in turn, shaping who can afford to live in certain areas. The article “Exclusionary by Design: An Investigation of Zoning’s Use as a Tool of Race, Class, and Family Exclusion in Boston’s Suburbs, 1920 to Today” <a href="#ref3">[3]</a> explains how these zoning laws often restrict housing types and prices, making it harder for lower-income families and renters to find housing in certain municipalities. This raises the question of whether zoning laws are contributing to a lack of diversity in Metro Boston’s suburbs.
+					<br><br> Historical context is also important here. The report Exclusionary by Design outlines how zoning policies in Boston’s suburbs have been used as a tool to exclude certain racial and economic groups, reinforcing segregation over the decades. Similarly, Dain’s research suggests that some zoning decisions are driven by a desire to maintain property values and social hierarchies, which could mean that communities with strict single-family zoning tend to be less economically and racially diverse.
+					<br><br> Given these concerns, I want to explore whether there is a clear link between single-family zoning and demographic composition in Metro Boston. If municipalities with higher single-family zoning percentages have fewer lower-income residents and racial minorities, it would suggest that zoning laws continue to shape who has access to housing and economic opportunity. Understanding this relationship is especially relevant now, as cities debate zoning reforms, such as the MBTA Communities Act <a href="#ref1">[1]</a> and the policies implemented in Minneapolis <a href="#ref4">[4]</a>, which aim to promote more diverse and inclusive housing.
+					
+				
+				</ul>
+				
+			</ol>
+		</section>
+
+		<section>
+			<h2>Discoveries & Insights</h2>
+			<h3><b>Data Anomalies</b> </h3>
+			Before diving into the analysis, it is important to highlight a notable data anomaly: at least ten municipalities (including Burlington, Somerville, Everett) report a total population of zero, with all demographic-related attributes set to 0. This is unexpected, as these municipalities do exist and are inhabited. The issue may stem from incomplete or missing data in census aggregation at the zoning area level, particularly when the geographic unit does not align well with census boundaries. Another possibility is that certain small zoning areas could not be assigned accurate population data due to discrepancies in data sources.
+			<br><br> Additionally, a basic internet search shows that Boston’s population was approximately 600,000 in 2023, whereas the dataset reports only 1,369. This discrepancy raises concerns about the accuracy of certain data points.
+			<br><br> These limitations do not invalidate the overall analysis but serves as an important reminder that zoning-level demographic data may sometimes be incomplete or misrepresented, particularly in edge cases where census geography does not perfectly map onto zoning boundaries. We accounted for this by ensuring that our conclusions focused on municipalities with reliable data while acknowledging the need for further verification in specific cases.
+			<br><br> Apart from these limitations, the dataset contained no null values, duplicates, or significant inconsistencies requiring further cleaning, allowing us to proceed with the analysis with confidence in the reliability of the remaining data.
+
+			<h3> <b>Question #1: How is single-family zoning distributed across Metro Boston municipalities?</b></h3>
+			To begin our analysis, we constructed a histogram illustrating the distribution of single-family zoning percentages across Metro Boston municipalities. This visualization immediately revealed a striking bimodal pattern, where a significant number of municipalities either have nearly 0% or close to 100% of their residential land zoned exclusively for single-family housing. The polarization suggests that most municipalities fall into one of two categories: those that allow diverse housing types and those that strongly restrict residential development to single-family homes.
+			<figure>
+				<img src="Question1_Figure1.png" alt="Distribution of Single-Family Zoning Percentage" />
+				<figcaption>
+					Distribution of Single-Family Zoning Percentage: Number of municipalities vs. % of residential land zoned as single-family. <br>
+					<br>It reveals a stark bimodal pattern. Most municipalities either allow little to no single-family zoning or heavily restrict residential land to it. The absence of mid-range values suggests polarized zoning policies, likely influenced by historical and political factors.
+				</figcaption>
+			</figure>
+			<br> The lack of municipalities in the mid-range (20-80%) suggests that zoning policies in the region are not gradually distributed but rather reflect binary approaches, potentially driven by historical land use policies, economic factors, or political decisions. This stark divide raises important questions about the spatial patterns of single-family zoning across Metro Boston: “Do zoning patterns correlate with urban, suburban, and coastal locations?”.
+			
+			<br><br>To investigate the geographical distribution of single-family zoning, we created a choropleth map, where darker shades represent municipalities with a higher percentage of single-family zoning, while lighter shades indicate more flexible zoning policies that accommodate multi-family or mixed-use development.
+
+			<figure>
+				<img src="Question1_Figure2.png" alt="Percentage of Land Zoned for Single-Family Housing in Metro Boston Municipalities" />
+				<figcaption>
+					Percentage of Land Zoned for Single-Family Housing in Metro Boston Municipalities: Darker shades indicate a higher percentage of land zoned for single-family housing.
+					Urban areas like Boston and Cambridge have lower single-family zoning, supporting multi-family housing, while suburban and coastal municipalities enforce higher restrictions, reinforcing lower-density development.
+				</figcaption>
+			</figure>
+			<br>
+			This visualization confirmed key spatial trends:
+			<li>Urban municipalities, such as Boston and Cambridge, have lower single-family zoning percentages. These cities prioritize mixed-use and multi-family housing, allowing for higher-density development that accommodates population growth.</li>
+			<li>Suburban and coastal municipalities exhibit much higher single-family zoning percentages, reinforcing the idea that zoning policies in these areas intentionally preserve lower-density residential development.</li>
+			
+			<br> While mapping zoning patterns, we observed that areas with high single-family zoning tend to be less urbanized, whereas those with less restrictive policies are concentrated in the urban core. This pattern raised a natural follow-up question: “Does the degree of single-family zoning correlate with population density?”
+			<br> <br>Understanding this relationship is critical because restrictive zoning can influence residential capacity, impacting housing affordability and accessibility. If municipalities with high single-family zoning also have lower population densities, it would suggest that zoning laws actively limit housing supply and discourage higher-density development.
+
+			<br><br> To explore this, we refined our visualization by overlaying population density data on the zoning map. The ten most densely populated municipalities were marked with red dots, allowing us to examine whether high-density areas coincide with lower single-family zoning percentages.
+			To explore the relationship between single-family zoning and population density, we refined our visualization by overlaying population density data on the zoning map. The ten most densely populated municipalities were marked with red dots, allowing us to examine whether high-density areas coincide with lower single-family zoning percentages.
+			
+			<figure>
+				<img src="Question1_Figure3.png" alt="Percentage of Land Zoned for Single-Family Housing in Metro Boston Municipalities" />
+				<figcaption>
+					Percentage of Land Zoned for Single-Family Housing in Metro Boston Municipalities: Darker shades indicate a higher percentage of land zoned for single-family housing. Red dots represent the top 10 municipalities by population density.  Urban areas like Boston and Cambridge have lower single-family zoning, supporting multi-family housing, while suburban and coastal municipalities enforce higher restrictions, reinforcing lower-density development.
+				</figcaption>
+			</figure>
+			This refined analysis highlighted a strong correlation:
+			<li>Municipalities with the highest population densities tend to have low to mid single-family zoning percentages. These areas have zoning policies that enable denser housing, supporting greater affordability and accessibility.</li>
+			<li>The darkest blue areas, representing municipalities with restrictive single-family zoning, generally have lower population densities. This suggests that single-family zoning may limit residential capacity and discourage denser development, reinforcing exclusionary housing patterns.</li>
+
+			<br>This visualization further supports the idea that single-family zoning regulations shape housing density and may contribute to housing shortages in areas where demand is high but multi-family development is restricted.
+			
+			<h3><b>Question #2: How many municipalities in Metro Boston’s residential land will now be non-compliant under current zoning laws (MBTA Communities Act)?</b></h3>
+			To begin, we plotted a bar chart comparing the number of municipalities that zone 100% of their housing land for single-family homes while also being designated MBTA communities. This visualization revealed that among the municipalities with restrictive zoning, six out of the seven are classified as MBTA communities. Given the state's legislative requirement under Section 3A of the Zoning Act that mandates MBTA communities permit multi-family housing by right, this finding immediately flagged these municipalities as potentially non-compliant and at risk of facing legal or financial consequences if they fail to implement zoning reforms.
+			<figure>
+				<img src="Question2_Figure1.png" alt="MBTA Community Status of Municipalities with 100% Single-Family Zoning" />
+				<figcaption>
+					MBTA Community Status of Municipalities with 100% Single-Family Zoning: The chart shows the number of municipalities that are MBTA communities versus those that are not, among municipalities with 100% single-family zoning. MBTA communities are represented in red, while non-MBTA communities are shown in gray. Six out of seven such municipalities fall under MBTA legislation, meaning they are required to allow multi-family housing. While they may be in the process of compliance, this highlights the challenge of adapting zoning laws to meet state mandates.
+				</figcaption>
+			</figure>
+			It is important to highlight that, when a community enters MBTA legislation, they have some time to adapt to this legislation. Since we don’t possess the data of when they enter under this legislation, it is important to acknowledge that some of these cities might be working towards it although still not there yet.
+			<br> <br>While the first visualization highlighted the number of potentially non-compliant municipalities, it made me wonder: “What are these municipalities and are all of them concentrated in a particular region?”
+			
+			<br><br>To refine our understanding of the geographic location of these “non-compliant mucipalities”, we introduced a second visualization—a map highlighting the six locations.
+			
+			<figure>
+				<img src="Question2_Figure2.png" alt="Non-Compliant MBTA Communities with 100% Single-Family Zoning" />
+				<figcaption>
+					Non-Compliant MBTA Municipalities (100% Single-Family Zoning): The map highlights municipalities that are MBTA communities but have 100% single-family zoning, shown in red. These municipalities may not comply with zoning requirements intended to support housing diversity.
+				</figcaption>
+			</figure>
+			This map provided a much clearer perspective on the distribution of these towns. The six flagged towns—Duxbury, Hopkinton, Hanover, Nahant, Wenham, and Dover—appear dispersed rather than concentrated in a single subregion. This suggests that resistance to multi-family zoning is not unique to a specific geographic area but rather a systemic issue affecting different types of communities, from coastal towns (Duxbury, Hanover, Nahant) to inland suburban and exurban areas (Hopkinton, Dover, Wenham).
+			<br><br>The implication of this dispersion is significant: it suggests that non-compliance does not stem from a single factor, such as proximity to Boston or reliance on specific transit corridors, but rather reflects broader socioeconomic and policy-driven resistance. Some of these municipalities are in areas that would benefit significantly from increased housing supply, given their access to employment centers and transit infrastructure.
+			<br><br>Furthermore, the map visually reinforces the potential barriers to housing affordability and accessibility in Massachusetts. By maintaining single-family zoning across 100% of their residential land, these municipalities effectively limit opportunities for lower- and middle-income residents to find housing in transit-connected areas. This has broader implications for regional equity, as it exacerbates segregation by income and race, making it more difficult for diverse populations to access employment centers, educational opportunities, and public transportation. The geographic dispersion led us to consider whether non-compliant municipalities share certain economic characteristics. Specifically, do they have a disproportionately high number of wealthy households? If so, this could indicate exclusionary zoning practices that reinforce economic segregation.
+			<br><br>To do this, we created a bar chart that compares the average number of high-income households in municipalities with 100% single-family zoning against the Massachusetts state average. We consider the “high-income households” as the aggregation of the buckets [$150K-$200k] and greater than $200k.
+			The values in the chart represent the average number of high-income households per municipality rather than the total number of such households in the state. This means the comparison highlights how, on average, municipalities with exclusively single-family zoning differ in their concentration of high-income households compared to the broader set of municipalities across Massachusetts.
+			<figure>
+				<img src="Question2_Figure3.png" alt="Income Comparison: 100% Single-Family Municipality vs. Massachusetts Average" />
+				<figcaption>
+					Income Comparison: The chart compares the average number of high-income households (over $150k) in municipalities with 100% single-family zoning to the statewide average in Massachusetts. Municipalities with exclusive single-family zoning have a higher number of high-income households compared to the state average.
+				</figcaption>
+			</figure>
+			
+			The results were surprising: municipalities enforcing strict single-family zoning had significantly higher numbers of high-income households compared to the statewide average. This observation suggests that exclusionary zoning may serve as an economic barrier, preventing lower-income households from accessing housing in these communities. By maintaining restrictive zoning policies, these municipalities may be reinforcing wealth concentration and limiting socioeconomic diversity, a well-documented effect of single-family zoning nationwide.
+			<br><br>The persistence of these zoning patterns also raises policy concerns. The MBTA Communities Act was designed to promote housing accessibility and affordability, yet some municipalities appear to be resisting compliance. If these towns continue to prohibit multi-family housing, the state may need to enforce stricter penalties to ensure compliance. Alternatively, municipalities could seek legal exemptions or attempt to delay implementation—outcomes that could further exacerbate Massachusetts’ ongoing housing shortage.
+			
+			
+			<h3><b>Question #3: How does single-family zoning impact the demographic composition of municipalities in Metro Boston?</b></h3>
+			Zoning policies play a critical role in shaping the demographic composition of municipalities, influencing racial diversity, income distribution, and accessibility for different population groups. In Metro Boston, single-family zoning often dictates who can afford to live in certain areas and how diverse those communities are. By analyzing a series of visualizations, we explore how single-family zoning impacts racial composition, gender balance, age distribution, and income inequality across municipalities.
+			
+			<br><br>The first visualization examines the racial composition of municipalities based on zoning type. It highlights the proportion of different racial groups living in single-family versus other housing types. The chart shows that white residents are more predominant in single-family zoned areas compared to other housing types, while racial minorities, particularly Black, Asian, and Hispanic populations, are more prevalent in other housing types. This suggests a potential exclusionary effect of single-family zoning on racial diversity.
+			
+			<figure>
+				<img src="Question3_Figure1.png" alt="Comparison of Racial Composition by Zoning Type" />
+				<figcaption>
+					Comparison of Racial Composition by Zoning Type: The chart compares the racial composition of populations living in areas zoned for single-family housing versus other housing types. White populations are more predominant in single-family zoned areas (blue), while other racial groups have a relatively higher proportion in areas with other housing types (red).
+				</figcaption>
+			</figure>
+			
+			To further explore the socioeconomic impacts of single-family zoning, we analyzed income distribution. The box plot compares median household incomes between zoning types. The visualization shows that single-family zoned areas tend to have higher median incomes than other housing types. This reinforces the idea that single-family zoning may be contributing to economic segregation, limiting access to lower-income households.
+			<figure>
+				<img src="Question3_Figure2.png" alt="Income Distribution by Zoning Type" />
+				<figcaption>
+					Income Distribution by Zoning Type: The box plot compares the median household income of populations living in areas zoned for single-family housing (blue) versus other housing types (red). Single-family zoned areas tend to have higher median household incomes compared to other housing zones.
+				</figcaption>
+			</figure>
+			To gain a more granular understanding of income disparities, we examined the proportion of households across different income brackets. The bar chart reveals that higher-income households are significantly more concentrated in single-family zoned areas, while lower-income households are more evenly distributed or skewed toward other housing types. This suggests that single-family zoning might serve as an economic barrier to housing affordability.
+
+
+			<figure>
+				<img src="Question3_Figure3.png" alt="Income Distribution by Zoning Type (Percentage)" />
+				<figcaption>
+					Income Distribution by Zoning Type (Percentage): The bar chart compares the percentage of households within different income brackets for single-family housing zones (blue) versus other housing types (red). Higher-income households are more prevalent in single-family zoned areas, while lower-income households are relatively more common in other housing types.
+				</figcaption>
+			</figure>
+			Given the economic segregation observed, we investigated whether zoning affects household size. The visualization shows that small households (1-2 persons) are more prevalent in other housing types, while single-family zoned areas have a larger proportion of medium to large households. This finding aligns with the expectation that single-family zoning encourages larger, wealthier households while discouraging smaller, possibly lower-income households.
+			
+			<figure>
+				<img src="Question3_Figure4.png" alt="Comparison of Household Size Categories by Zoning Type" />
+				<figcaption>
+					Comparison of Household Size Categories by Zoning Type: The bar chart compares the proportion of small (1-2 person), medium (3-4 person), and large (5+ person) households in areas zoned for single-family housing (blue) versus other housing types (red). Small households are more common in other housing types, while medium and large households are relatively more prevalent in single-family zones.
+				</figcaption>
+			</figure>
+			
+			To further refine our insights, we examined the correlation between household size and income. The heatmap confirms that small households are positively correlated with lower income levels and negatively correlated with high-income levels, whereas larger households have the opposite trend. This reinforces our earlier observations that single-family zoning encourages higher-income, larger households while limiting diversity in household structure and economic backgrounds.
+			<figure>
+				<img src="Question3_Figure5.png" alt="Correlation Between Household Size and Income Levels" />
+				<figcaption>
+					Correlation Between Household Size and Income Levels: The heatmap illustrates the correlation between household size categories and income levels. Small households (1-2 persons) have a positive correlation with lower income levels and a negative correlation with high income levels, while larger households (5+ persons) show the opposite trend, being more associated with higher incomes.
+				</figcaption>
+			</figure>
+			
+
+		<section>
+			<h2>Summary</h2>
+			<p>Our analysis of single-family zoning distribution in Metro Boston municipalities uncovered key insights into the region’s housing policies and their implications:</p>
+			<ol>
+				<li><strong>Bimodal Zoning Distribution:</strong> The histogram revealed a stark divide—most municipalities either have nearly 0% or close to 100% of their residential land zoned for single-family housing. This polarization suggests a systemic divide between urban areas with flexible zoning and suburban/exurban municipalities that heavily restrict development.</li>
+				
+				<li><strong>Zoning and Population Density:</strong> Municipalities with higher single-family zoning percentages tend to have lower population densities, reinforcing the idea that restrictive zoning directly limits housing supply. Urban cores, such as Boston and Cambridge, have more diverse zoning policies that accommodate higher-density development, while suburban and coastal areas remain predominantly single-family zoned.</li>
+				
+				<li><strong>MBTA Communities and Non-Compliance:</strong> Several municipalities with 100% single-family zoning are designated as MBTA communities, raising concerns about compliance with state mandates requiring multi-family housing development. The dispersed geographic distribution of these municipalities suggests that resistance to zoning reform is not localized but rather reflects broader socioeconomic and political factors.</li>
+				
+				<li><strong>Economic and Demographic Exclusion:</strong> Municipalities with strict single-family zoning have significantly higher concentrations of high-income households compared to the Massachusetts state average. The data further suggests that these zoning policies contribute to racial and economic segregation, with white, higher-income, and larger households being overrepresented in single-family zoned areas, while lower-income and minority populations are more prevalent in multi-family housing zones.</li>
+				
+				<li><strong>Household Size and Affordability:</strong> Single-family zoning encourages wealthier, larger households while discouraging smaller, potentially lower-income households. The correlation between household size and income levels further underscores how zoning policies shape residential patterns and limit economic diversity.</li>
+			</ol>
+
+		</section>
+		<section>
+			<h2>References</h2>
+			<p id="ref1">[1] Massachusetts Executive Office of Housing and Livable Communities. "Multi-Family Zoning Requirement for MBTA Communities." Mass.gov, https://www.mass.gov/info-details/multi-family-zoning-requirement-for-mbta-communities.  Accessed 2025 <br></p>
+			<p id="ref2">[2] National Low Income Housing Coalition. "Massachusetts Supreme Judicial Court Rules MBTA Communities Must Comply with Multifamily Zoning." NLIHC, 21 Jan. 2025, https://nlihc.org/resource/massachusetts-supreme-judicial-court-rules-mbta-communities-must-comply-multifamily-zoning. Accessed 2025 <br></p>
+			<p id="ref3">[3] Madsen, Jacob, Evan Mast, and Katherine Sullivan. Exclusionary by Design: An Investigation of Zoning’s Use as a Tool of Race, Class, and Family Exclusion in Boston’s Suburbs, 1920 to Today.m Amy Dain, 2023 <br></p>
+			<p id="ref4">[4] Liang, Linlin, Adam Staveski, and Alex Horowitz. "Minneapolis Land Use Reforms Offer a Blueprint for Housing Affordability." The Pew Charitable Trusts, 4 Jan. 2024, https://www.pewtrusts.org/en/research-and-analysis/articles/2024/01/04/minneapolis-land-use-reforms-offer-a-blueprint-for-housing-affordability. Accessed 2025 <br></p>
+	
+	
+		</section>
+	</main>
+</body>
+</html>
